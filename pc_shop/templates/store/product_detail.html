@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}{{product.name}}{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="card mt-3" dir="rtl">
+            <div class="card-body text-right">
+                <img src="{{product.image.url}}" alt="" class="img-fluid d-block mx-auto" width="250px">
+                <hr>
+                <p>نام محصول: {{product.name}}</p>
+                <p>دسته بندی: {{product.category.name }}</p>
+                <p>قیمت : <span class="text-danger">{{product.price|intcomma:False}}</span> تومان</p>
+                
+                <p>موجودی : <span class="text-success">{{product.stock}}</span> عدد</p>
+                <p>توضیحات : {{product.description }}</p>
+                <br><br>
+                <h3 class="text-center">سفارش محصول</h3>
+                <hr>
+                <form action="{% url 'create_order' product.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.quantity.label_tag }}
+                        {{ form.quantity }}
+                        {% if form.quantity.errors %}
+                            <div class="error-message">
+                                {% for error in form.quantity.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">ثبت سفارش</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br><br>
+{% endblock content %}

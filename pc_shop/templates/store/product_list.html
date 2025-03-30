@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}محصولات{% endblock title %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <div class="list-group text-center">
+                    <a href="{% url 'product_list' %}" class="list-group-item list-group-item-action {% if not category %}active{% endif %}">همه محصولات</a>
+                    {% for c in categories %}
+                        <a href="{% url 'product_list' %}?category={{c.id}}" class="list-group-item list-group-item-action {% if category.id == c.id %}active{% endif %}">{{c.name}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-9 text-right">
+                <h3>{% if category %}{{category.name}}{% else %}همه محصولات{% endif %}</h3>
+                <hr>
+                <div class="row">
+                    {% for product in products %}
+                        {% if product.available == True %}
+                        <div class="col-md-4">
+                            <div class="card-body">
+                                <img src="{{product.image.url}}" alt="" class="img-fluid d-block mx-auto" width="150px">
+                                <br><br>
+                                <p><span>{{product.name}}</span></p>
+                                <p>قیمت: <span class="text-danger">{{product.price| intcomma:False}}</span> تومان</p>
+                                <p>موجودی: {{ product.stock }}</p>
+                                
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-dark btn-block">مشاهده جزئیات</a>
+                            </div>
+                        </div>
+                       {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <br>
+        <ul class="pagination justify-content-center">
+            {% if products.has_previous %}
+            <li class="page-item">
+                <a href="?page={{products.previous_page_number}}" class="page-link rounded-0">قبلی</a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+                <a href="#" class="page-link disabled rounded-0">صفحه {{products.number}} از {{products.paginator.num_pages}}</a>
+            </li>
+            {% if products.has_next %}
+                <li class="page-item">
+                    <a href="?page={{products.next_page_number}}" class="page-link rounded-0">بعدی</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </div>
+    <br><br><br>
+{% endblock content %}

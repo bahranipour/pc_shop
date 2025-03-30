@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}سوابق سفارشات{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+
+<h1 class="mb-4 text-center">سوابق سفارشات</h1>
+
+{% if orders %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover text-center table-bordered bg-white">
+        <thead>
+            <tr>
+                <th>شماره سفارش</th>
+                <th>تاریخ</th>
+                <th>وضعیت</th>
+                <th class="text-end">مبلغ کل</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}#</td>
+                <td>{{ order.created_at|date:"Y/m/d" }}</td>
+                <td>
+                    <span class="badge 
+                        {% if order.status == 'completed' %}bg-success
+                        {% elif order.status == 'cancelled' %}bg-danger
+                        {% else %}bg-warning text-dark{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td class="text-end">{{ order.total_price|intcomma:False }} تومان</td>
+                <td>
+                    <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-primary">
+                        مشاهده
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info text-center">
+    هنوز هیچ سفارشی ثبت نکرده‌اید.
+    <a href="{% url 'product_list' %}" class="alert-link">مشاهده محصولات</a>
+</div>
+{% endif %}
+</div>
+{% endblock %}

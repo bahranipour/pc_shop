@@ -1,0 +1,68 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>{% block title %}{% endblock title %}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- start navbar-->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark text-right">
+        <a href="/" class="navbar-brand">PC Shop</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="myNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/" class="nav-link active">صفحه اصلی</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url 'order_history' %}" class="nav-link active">تاریخچه سفارش</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'password_change' %}" class="nav-link active">تغییر رمز عبور</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">خروج</button>
+                        </form>
+                    </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'signup' %}" class="nav-link active">ثبت نام</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="nav-link active">ورود</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <!-- end navbar -->
+    {% if messages %}
+    {% for message in messages %}
+      <div id="message" class="container">
+        <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+          {{ message }}
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+    {% block content %}{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+/* تغییر فونت بخش ادمین */
+body {
+    font-family: Tahoma, sans-serif;
+}
+
+/* تغییر رنگ زمینه هدر */
+#header {
+    background-color: teal; /* سبز */
+    color: white;
+}
+
+/* تغییر رنگ زمینه صفحه */
+#content {
+    background-color: #f5f5f5; /* خاکستری روشن */
+}
+
+/* تغییر رنگ دکمه‌ها */
+.button, input[type="submit"], input[type="button"], .submit-row input {
+    background-color: teal; /* سبز */
+    color: white;
+    border: none;
+}
+
+
+
+/* تغییر رنگ زمینه فرم‌ها */
+.module h2, .module caption, .inline-group h2 {
+    background-color: teal; /* سبز */
+    color: white;
+}
+
+/* تغییر فونت جدول‌ها */
+table {
+    font-family: Tahoma, sans-serif;
+}
+
+/* تغییر رنگ زمینه لیست‌ها */
+#changelist {
+    background-color: #ffffff; /* سفید */
+}
+
+/* تغییر رنگ زمینه فرم‌ها */
+#content-main .module {
+    background-color: #f9f9f9; /* خاکستری بسیار روشن */
+}
+
+/* تغییر رنگ متن */
+body {
+    color: #333333; /* خاکستری تیره */
+}
